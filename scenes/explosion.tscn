@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://nspvxagw30n7"]
+
+[sub_resource type="Curve" id="Curve_wgym4"]
+_data = [Vector2(0.00374532, 0.98887), 0.0, 0.0, 0, 0, Vector2(0.981273, 0.020548), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+emitting = false
+amount = 50
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.75
+randomness = 0.48
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+scale_amount_min = 8.0
+scale_amount_max = 16.0
+scale_amount_curve = SubResource("Curve_wgym4")
+color = Color(0.872348, 0.426531, 0.324211, 1)

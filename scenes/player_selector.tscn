@@ -1,0 +1,182 @@
+[gd_scene load_steps=27 format=3 uid="uid://bj1o73pdllxun"]
+
+[ext_resource type="Script" path="res://scripts/player_selector.gd" id="1_c6nll"]
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="2_tqeps"]
+[ext_resource type="Resource" uid="uid://cn81ibxoldnla" path="res://assets/resources/albertito.tres" id="3_jniul"]
+[ext_resource type="Resource" uid="uid://bpawjxhkqcyy1" path="res://assets/resources/anita.tres" id="4_frcji"]
+[ext_resource type="Resource" uid="uid://bxty8fjpvljqp" path="res://assets/resources/belen.tres" id="5_ytfcv"]
+[ext_resource type="Resource" uid="uid://df8yrt5e7xw7a" path="res://assets/resources/brian.tres" id="6_h6rek"]
+[ext_resource type="Resource" uid="uid://c4ddv66r335gn" path="res://assets/resources/carlitos.tres" id="7_f01hs"]
+[ext_resource type="Resource" uid="uid://demiui2dsec1x" path="res://assets/resources/damiana.tres" id="8_urqso"]
+[ext_resource type="Resource" uid="uid://b23fal4o082x0" path="res://assets/resources/david.tres" id="9_wtuwi"]
+[ext_resource type="Resource" uid="uid://cug10ldih8x05" path="res://assets/resources/don_joaquin.tres" id="10_djc8l"]
+[ext_resource type="Resource" uid="uid://djdxcy2vnwtto" path="res://assets/resources/fatima.tres" id="11_ojpje"]
+[ext_resource type="Resource" uid="uid://dhlq3p6hggfqq" path="res://assets/resources/karen.tres" id="12_3nee6"]
+[ext_resource type="Resource" uid="uid://duf4au5fn3um0" path="res://assets/resources/kashira.tres" id="13_o11nj"]
+[ext_resource type="Resource" uid="uid://u63uk2pmtpue" path="res://assets/resources/kevin.tres" id="14_2nt6r"]
+[ext_resource type="Resource" uid="uid://dpuumynlavaqy" path="res://assets/resources/luciano.tres" id="15_4ukuh"]
+[ext_resource type="Resource" uid="uid://buvnk2ji1kx1j" path="res://assets/resources/maya.tres" id="16_43kav"]
+[ext_resource type="Resource" uid="uid://bv7qdrit2nmnb" path="res://assets/resources/roberto.tres" id="17_fhjpa"]
+[ext_resource type="FontFile" uid="uid://c02d6776wmdho" path="res://assets/fonts/PixelOperator8.ttf" id="18_3ke2v"]
+[ext_resource type="Texture2D" uid="uid://dgsvujwbpf6ui" path="res://addons/plenticons/icons/64x-hidpi/2d/triangle-down-yellow.png" id="19_g6r63"]
+[ext_resource type="Texture2D" uid="uid://d4e20v4t5r545" path="res://assets/characters/albertito.jpg" id="20_32h1r"]
+[ext_resource type="Theme" uid="uid://bb5vt0x5fx5a4" path="res://assets/button_theme.tres" id="21_lpb4x"]
+[ext_resource type="Texture2D" uid="uid://cdtvsgbew470d" path="res://addons/plenticons/icons/16x/objects/sword-white.png" id="22_o7v1e"]
+[ext_resource type="Texture2D" uid="uid://bx1uja6qkujuu" path="res://addons/plenticons/icons/16x/objects/shield-white.png" id="23_8tx25"]
+[ext_resource type="Texture2D" uid="uid://dowwfb3exmrky" path="res://addons/plenticons/icons/16x/objects/lightning-white.png" id="24_28dkp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c87rd"]
+font = ExtResource("18_3ke2v")
+font_size = 24
+
+[sub_resource type="Theme" id="Theme_tv1vt"]
+button/colors/font_color = Color(0.992157, 0.447059, 0.447059, 1)
+
+[node name="player1" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 384.0
+offset_bottom = 384.0
+script = ExtResource("1_c6nll")
+characters = Array[ExtResource("2_tqeps")]([ExtResource("3_jniul"), ExtResource("4_frcji"), ExtResource("5_ytfcv"), ExtResource("6_h6rek"), ExtResource("7_f01hs"), ExtResource("8_urqso"), ExtResource("9_wtuwi"), ExtResource("10_djc8l"), ExtResource("11_ojpje"), ExtResource("12_3nee6"), ExtResource("13_o11nj"), ExtResource("14_2nt6r"), ExtResource("15_4ukuh"), ExtResource("16_43kav"), ExtResource("17_fhjpa")])
+
+[node name="top_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 32.0
+offset_right = 79.0
+offset_bottom = 56.0
+grow_horizontal = 2
+text = "PLAYER 1"
+label_settings = SubResource("LabelSettings_c87rd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="prev" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.073
+anchor_top = 0.51
+anchor_right = 0.073
+anchor_bottom = 0.51
+offset_left = 35.968
+offset_top = -35.84
+offset_right = 107.968
+offset_bottom = 36.16
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+text = "
+"
+icon = ExtResource("19_g6r63")
+icon_alignment = 1
+
+[node name="next" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.927
+anchor_top = 0.510333
+anchor_right = 0.927
+anchor_bottom = 0.510333
+offset_left = -35.968
+offset_top = 36.032
+offset_right = 36.032
+offset_bottom = 108.032
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 4.71389
+text = "
+"
+icon = ExtResource("19_g6r63")
+icon_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="avatar" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -112.0
+offset_right = 120.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("20_32h1r")
+expand_mode = 1
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = -44.0
+offset_right = 68.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("21_lpb4x")
+alignment = 1
+selected = 0
+item_count = 1
+popup/item_0/text = "player selector"
+
+[node name="stats" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.18
+anchor_top = 0.21
+anchor_right = 0.18
+anchor_bottom = 0.21
+offset_left = 10.88
+offset_top = 7.36
+offset_right = 70.88
+offset_bottom = 134.36
+theme = SubResource("Theme_tv1vt")
+
+[node name="attack" type="Button" parent="stats"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 35.0
+offset_bottom = 28.0
+tooltip_text = "damage"
+theme = ExtResource("21_lpb4x")
+text = "3"
+icon = ExtResource("22_o7v1e")
+flat = true
+
+[node name="defense" type="Button" parent="stats"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 33.0
+offset_right = 35.0
+offset_bottom = 64.0
+tooltip_text = "defense"
+theme = ExtResource("21_lpb4x")
+text = "3"
+icon = ExtResource("23_8tx25")
+flat = true
+
+[node name="energy" type="Button" parent="stats"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 69.0
+offset_right = 35.0
+offset_bottom = 100.0
+tooltip_text = "energy"
+theme = ExtResource("21_lpb4x")
+text = "3"
+icon = ExtResource("24_28dkp")
+flat = true
+
+[connection signal="pressed" from="prev" to="." method="_on_prev_pressed"]
+[connection signal="pressed" from="next" to="." method="_on_next_pressed"]
+[connection signal="item_selected" from="OptionButton" to="." method="_on_item_selected"]

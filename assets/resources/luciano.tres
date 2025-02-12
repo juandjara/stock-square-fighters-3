@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://dpuumynlavaqy"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_lvrv3"]
+[ext_resource type="Texture2D" uid="uid://drq7fdvfjdmn3" path="res://assets/characters/luciano.jpg" id="2_wbtk4"]
+
+[resource]
+script = ExtResource("1_lvrv3")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(1, 0.95, 0, 1)
+sprite = ExtResource("2_wbtk4")
+name = "luciano"

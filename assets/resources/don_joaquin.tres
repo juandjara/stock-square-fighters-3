@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cug10ldih8x05"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_qdl0p"]
+[ext_resource type="Texture2D" uid="uid://dmy0wd3vy7alf" path="res://assets/characters/don_joaquin.jpg" id="2_6glf3"]
+
+[resource]
+script = ExtResource("1_qdl0p")
+strength = 7
+defense = 1
+energy = 1
+energy_color = Color(0.47, 0.0987, 0.104888, 1)
+sprite = ExtResource("2_6glf3")
+name = "don joaquin"

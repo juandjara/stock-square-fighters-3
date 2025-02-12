@@ -1,0 +1,212 @@
+class_name Player
+extends CharacterBody2D
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -750.0
+const MAX_HEALTH = 200
+
+@export var is_controlled: bool = true
+@export_enum("left", "right") var initial_place: String = "left"
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite: Node2D = $sprite
+@onready var sprite_inner: Node2D = $sprite/Sprite2D
+
+var character_name: String
+var energy_color: Color
+
+var bullet_scene = preload("res://scenes/bullet.tscn")
+var initial_sprite_scale: float = 1
+var pushback_force: Vector2
+var health = 200
+
+const MAX_ENERGY = 1.5 # seconds needed to fire a energy ball
+var energy_loaded = 0
+var state = "idle"
+
+const TARGET_SPRITE_SIZE = 153 # px
+
+func _ready() -> void:
+	initial_sprite_scale = sprite.scale.x
+	if initial_place == 'right':
+		sprite.scale.x *= -1
+
+
+# called from world.gd when instantiating the players
+func init_data(data: CharacterData):
+	if not data:
+		return
+	
+	energy_color = data.energy_color
+	character_name = data.name
+	sprite_inner.texture = data.sprite
+	
+	var scale_x = float(TARGET_SPRITE_SIZE) / float(sprite_inner.texture.get_width())
+	var scale_y = float(TARGET_SPRITE_SIZE) / float(sprite_inner.texture.get_height())
+	sprite_inner.scale.x = scale_x
+	sprite_inner.scale.y = scale_y
+
+
+func get_keys() -> Dictionary:
+	if initial_place == 'left':
+		return {
+			"atk1": "p1_atk1",
+			"atk2": "p1_atk2",
+			"up": "p1_up",
+			"down": "p1_down",
+			"right": "p1_right",
+			"left": "p1_left"
+		}
+	if initial_place == 'right':
+		return {
+			"atk1": "p2_atk1",
+			"atk2": "p2_atk2",
+			"up": "p2_up",
+			"down": "p2_down",
+			"right": "p2_right",
+			"left": "p2_left"
+		}
+	return {}
+
+func _physics_process(delta: float) -> void:
+	if is_controlled:
+		if Input.is_action_just_pressed(get_keys()["atk1"]):
+			transition("attack1")
+		if Input.is_action_just_pressed(get_keys()["atk2"]):
+			transition("attack2")
+		if Input.is_action_just_pressed(get_keys()["down"]) and is_on_floor():
+			transition("load_energy")
+	
+	if state == 'idle':
+		process_movement(delta)
+	else:
+		velocity = lerp(velocity, Vector2.ZERO, delta * 10)
+	
+	if state == 'take_damage':
+		process_pushback(delta)
+	
+	if state == 'load_energy':
+		process_energy_load(delta)
+	
+	move_and_slide()
+	
+	face_other_player()
+
+# this is a bad approximation to a state machine, but it works for now
+func transition(new_state: String):
+	# reset energy when prev state was "load_energy"
+	if (state == 'load_energy'):
+		update_energy(0)
+	
+	if animation_player.is_playing():
+		# TODO: detect if animation is looping instead of checking by name
+		if animation_player.current_animation == 'load_energy':
+			animation_player.stop()
+		else:
+			# wait to finish current animation before transitioning to new state
+			await animation_player.animation_finished
+	
+	if state != new_state:
+		state = new_state
+		if state == 'idle':
+			animation_player.play("RESET")
+		else:
+			animation_player.play(state)
+
+	# only receive input for attack, movement and more when state is "idle"
+	if state == "idle":
+		is_controlled = true
+	else:
+		is_controlled = false
+		
+		# when animation is not "idle", transition to "idle" after animation finished (if anim does not loop)
+		# TODO: detect if animation is looping instead of checking by name
+		if animation_player.current_animation != 'load_energy':
+			await animation_player.animation_finished
+			transition("idle")
+	
+func process_movement(delta: float):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+		
+	# Handle jump.
+	if is_controlled and Input.is_action_just_pressed(get_keys()["up"]) and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	var direction := Input.get_axis(get_keys()["left"], get_keys()["right"])
+	if is_controlled and direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+func process_pushback(delta: float):
+	if pushback_force.length() != 0:
+		velocity += pushback_force
+		pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 20)
+
+func process_energy_load(delta: float):	
+	if Input.is_action_pressed(get_keys()["down"]):
+		update_energy(energy_loaded + delta)
+	
+	if Input.is_action_just_released(get_keys()["down"]):
+		if (energy_loaded >= MAX_ENERGY):
+			fire_energy()
+		
+		transition("idle")
+
+func face_other_player():
+	var other = get_other_player()
+	if not other:
+		return
+	
+	if get_other_player().position.x < position.x:
+		sprite.scale.x = initial_sprite_scale * -1
+	else:
+		sprite.scale.x = initial_sprite_scale
+
+func update_energy(value: float):
+	energy_loaded = value
+	var percent = max(0, energy_loaded * 100) / MAX_ENERGY
+	get_health_bar().update_energy(percent)
+
+func fire_energy():
+	var bullet = bullet_scene.instantiate() as Bullet
+	var diff = get_other_player().global_position.x - global_position.x
+	bullet.direction = Vector2(sign(diff), 0)
+	bullet.global_position = %bullet_spawn.global_position
+	bullet.color = energy_color
+	$/root/world.add_child(bullet)
+
+func get_other_player() -> Player:
+	if initial_place == 'right':
+		return $/root/world/player1
+	else:
+		return $/root/world/player2
+
+func get_health_bar() -> HealthBar:
+	if initial_place == 'right':
+		return $/root/world/GUI/HP_Right
+	else:
+		return $/root/world/GUI/HP_Left
+
+# the hurtbox script calls this methods when a hitbox collides with it
+func take_damage(amount: int):
+	transition("take_damage")
+	
+	await Hitstop.freeze_short() # if we don't append "await" here, the movement of thing freezes but the scripts do not
+	
+	var rand_amount = roundi(randf_range(amount * 0.8, amount * 1.2))
+	DamageNumbers.show_number(rand_amount, $DamageNumberOrigin.global_position)
+	
+	health -= rand_amount
+	var hp_percent = max(0, health * 100) / MAX_HEALTH
+	get_health_bar().update(hp_percent)
+	
+	if health <= 0:
+		$/root/world.show_win_menu()
+
+# the hurtbox script calls this methods when a hitbox collides with it
+func add_pushback_force(direction: Vector2):
+	pushback_force = direction * 500

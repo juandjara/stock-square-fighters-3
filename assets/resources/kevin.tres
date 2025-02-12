@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://u63uk2pmtpue"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_wudhn"]
+[ext_resource type="Texture2D" uid="uid://b6le5dg7ewca" path="res://assets/characters/kevin.jpg" id="2_uwqa0"]
+
+[resource]
+script = ExtResource("1_wudhn")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.293031, 0.89168, 0.962691, 1)
+sprite = ExtResource("2_uwqa0")
+name = "kevin"

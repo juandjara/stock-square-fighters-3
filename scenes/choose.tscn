@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://bb3ib0so7gjmv"]
+
+[ext_resource type="Texture2D" uid="uid://bmtqm02dkci1c" path="res://assets/street-fighter-bg.jpg" id="1_d1jdb"]
+[ext_resource type="Script" path="res://scripts/choose_menu.gd" id="1_h7f1j"]
+[ext_resource type="FontFile" uid="uid://dyld1xmtwxp60" path="res://assets/fonts/PixelOperatorHB.ttf" id="2_agu6s"]
+[ext_resource type="PackedScene" uid="uid://bj1o73pdllxun" path="res://scenes/player_selector.tscn" id="3_sqoyl"]
+[ext_resource type="Texture2D" uid="uid://b4vg35f6057ve" path="res://addons/plenticons/icons/64x-hidpi/2d/triangle-down-blue.png" id="4_k1hon"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2eq7u"]
+font = ExtResource("2_agu6s")
+font_size = 52
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_27q6l"]
+color = Color(0.942823, 0.942823, 0.942823, 1)
+thickness = 2
+vertical = true
+
+[node name="choose_menu" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_h7f1j")
+
+[node name="Street-fighter-bg" type="Sprite2D" parent="."]
+position = Vector2(428, 320)
+scale = Vector2(0.454167, 0.607407)
+texture = ExtResource("1_d1jdb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 4.0
+offset_top = -12.0
+offset_right = 863.0
+offset_bottom = 633.0
+color = Color(0, 0, 0, 0.498039)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.0
+offset_top = 24.0
+offset_right = 232.0
+offset_bottom = 88.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 52
+text = "CHOOSE YOUR FIGHTER"
+label_settings = SubResource("LabelSettings_2eq7u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = 96.0
+offset_right = 5.0
+offset_bottom = -164.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_27q6l")
+
+[node name="selector1" parent="." instance=ExtResource("3_sqoyl")]
+offset_left = 28.0
+offset_top = 96.0
+offset_right = 412.0
+offset_bottom = 480.0
+metadata/_edit_use_anchors_ = true
+
+[node name="selector2" parent="." instance=ExtResource("3_sqoyl")]
+offset_left = 448.0
+offset_top = 96.0
+offset_right = 832.0
+offset_bottom = 480.0
+top_label = "Player 2"
+button_icon = ExtResource("4_k1hon")
+
+[node name="fight" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = 196.0
+offset_right = 68.0
+offset_bottom = 247.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+disabled = true
+text = "FIGHT !"
+
+[connection signal="character_selected" from="selector1" to="." method="_on_select_p1"]
+[connection signal="character_selected" from="selector2" to="." method="_on_select_p2"]
+[connection signal="pressed" from="fight" to="." method="_on_fight_pressed"]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://b23fal4o082x0"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_dvwnm"]
+[ext_resource type="Texture2D" uid="uid://cosm7lqfbbybv" path="res://assets/characters/david.jpg" id="2_g5j2i"]
+
+[resource]
+script = ExtResource("1_dvwnm")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.3325, 0.548625, 0.95, 1)
+sprite = ExtResource("2_g5j2i")
+name = "david"

@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=3 uid="uid://da27ua6tpkajv"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_4x3sm"]
+[ext_resource type="Texture2D" uid="uid://bmtqm02dkci1c" path="res://assets/street-fighter-bg.jpg" id="1_05n7x"]
+[ext_resource type="PackedScene" uid="uid://cxjgflgkjcwq5" path="res://scenes/pause_menu.tscn" id="2_uvb2s"]
+[ext_resource type="PackedScene" uid="uid://oqqxvfbrhwkx" path="res://scenes/health_bar.tscn" id="3_hpo4r"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="4_nvwil"]
+[ext_resource type="FontFile" uid="uid://dvk1tsycyqrin" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_sbhtj"]
+[ext_resource type="PackedScene" uid="uid://cbrbt4mf4gc7p" path="res://scenes/end_menu.tscn" id="8_2xq00"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nvjx3"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f6v5v"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ryray"]
+distance = 20.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_r47sl"]
+normal = Vector2(1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4n4dv"]
+bg_color = Color(0.967982, 0.8379, 0.117652, 0.780392)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+shadow_color = Color(1, 0.473246, 0.261262, 0.647059)
+shadow_size = 2
+
+[node name="world" type="Node2D"]
+process_mode = 1
+script = ExtResource("1_4x3sm")
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(432, 315.875)
+scale = Vector2(0.458333, 0.599768)
+texture = ExtResource("1_05n7x")
+
+[node name="bounds" type="StaticBody2D" parent="."]
+
+[node name="top" type="CollisionShape2D" parent="bounds"]
+shape = SubResource("WorldBoundaryShape2D_nvjx3")
+
+[node name="left" type="CollisionShape2D" parent="bounds"]
+position = Vector2(862, 546)
+shape = SubResource("WorldBoundaryShape2D_f6v5v")
+
+[node name="down" type="CollisionShape2D" parent="bounds"]
+position = Vector2(0, 640)
+shape = SubResource("WorldBoundaryShape2D_ryray")
+
+[node name="right" type="CollisionShape2D" parent="bounds"]
+shape = SubResource("WorldBoundaryShape2D_r47sl")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+script = ExtResource("4_nvwil")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="HP_Left" parent="GUI" instance=ExtResource("3_hpo4r")]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 388.0
+offset_bottom = 48.0
+
+[node name="HP_Right" parent="GUI" instance=ExtResource("3_hpo4r")]
+offset_left = 472.0
+offset_top = 16.0
+offset_right = 844.0
+offset_bottom = 48.0
+fill_mode = 1
+
+[node name="FightTime" type="PanelContainer" parent="GUI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = 7.0
+offset_right = 36.0
+offset_bottom = 79.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4n4dv")
+
+[node name="FightTimeLabel" type="Label" parent="GUI/FightTime"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_sbhtj")
+theme_override_font_sizes/font_size = 32
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="pause_menu" parent="." instance=ExtResource("2_uvb2s")]
+
+[node name="end_menu" parent="." instance=ExtResource("8_2xq00")]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

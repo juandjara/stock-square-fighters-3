@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://cn81ibxoldnla"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_0qhiq"]
+[ext_resource type="Texture2D" uid="uid://d4e20v4t5r545" path="res://assets/characters/albertito.jpg" id="2_r4iys"]
+
+[resource]
+script = ExtResource("1_0qhiq")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.604067, 0.1722, 0.82, 1)
+sprite = ExtResource("2_r4iys")
+name = "albertito"

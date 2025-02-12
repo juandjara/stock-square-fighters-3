@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://oqqxvfbrhwkx"]
+
+[ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_nnc68"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byump"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0no3s"]
+bg_color = Color(0.231373, 0.623529, 0.270588, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7abwn"]
+bg_color = Color(0.121569, 0.121569, 0.121569, 0.54902)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.286275)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2ak4"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x0dk4"]
+bg_color = Color(0.168627, 0.270588, 0.815686, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="health_bar" type="ProgressBar"]
+z_index = 1
+offset_right = 372.0
+offset_bottom = 32.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_byump")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0no3s")
+value = 100.0
+show_percentage = false
+script = ExtResource("1_nnc68")
+
+[node name="damage_bar" type="ProgressBar" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_7abwn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_l2ak4")
+value = 100.0
+show_percentage = false
+
+[node name="energy_bar" type="ProgressBar" parent="."]
+layout_mode = 1
+offset_top = 32.0
+offset_right = 168.0
+offset_bottom = 44.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_x0dk4")
+show_percentage = false
+
+[node name="timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true

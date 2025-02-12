@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://bpawjxhkqcyy1"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_pqsku"]
+[ext_resource type="Texture2D" uid="uid://6e6civp66oum" path="res://assets/characters/anita.png" id="2_64t57"]
+
+[resource]
+script = ExtResource("1_pqsku")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.239447, 0.0588, 0.28, 1)
+sprite = ExtResource("2_64t57")
+name = "anita"

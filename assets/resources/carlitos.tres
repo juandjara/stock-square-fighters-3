@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://c4ddv66r335gn"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_b5ogq"]
+[ext_resource type="Texture2D" uid="uid://w3rx2ao8q7jb" path="res://assets/characters/carlitos.jpg" id="2_lr6cf"]
+
+[resource]
+script = ExtResource("1_b5ogq")
+strength = 1
+defense = 3
+energy = 5
+energy_color = Color(0.888804, 0.797053, 0.487238, 1)
+sprite = ExtResource("2_lr6cf")
+name = "carlitos"

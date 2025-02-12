@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://buvnk2ji1kx1j"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_x8lf1"]
+[ext_resource type="Texture2D" uid="uid://chcu1gf3pkkq7" path="res://assets/characters/maya.png" id="2_2jkvx"]
+
+[resource]
+script = ExtResource("1_x8lf1")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.577905, 0.829199, 0.959516, 1)
+sprite = ExtResource("2_2jkvx")
+name = "maya"

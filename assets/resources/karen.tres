@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://dhlq3p6hggfqq"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_oy85f"]
+[ext_resource type="Texture2D" uid="uid://wikdw8up1hlf" path="res://assets/characters/karen.png" id="2_kkmco"]
+
+[resource]
+script = ExtResource("1_oy85f")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(1, 0.7195, 0.49, 1)
+sprite = ExtResource("2_kkmco")
+name = "karen"

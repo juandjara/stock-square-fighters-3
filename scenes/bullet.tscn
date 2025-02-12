@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkgsx6c4hs4ik"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_q1kul"]
+[ext_resource type="Texture2D" uid="uid://cusoov2rhrfhb" path="res://assets/energy_ball.png" id="2_xb1jy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inq3t"]
+size = Vector2(48, 48)
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_q1kul")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(0.082, 0.082)
+texture = ExtResource("2_xb1jy")
+offset = Vector2(0, -184.615)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_inq3t")
+
+[node name="timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

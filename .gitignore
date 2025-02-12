@@ -1,0 +1,11 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Mac OS specific ignores
+.DS_Store
+
+# Windows specific ignores
+Thumbs.db
+ehthumbs.db
+Desktop.ini

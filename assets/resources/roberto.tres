@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://bv7qdrit2nmnb"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_6bvk3"]
+[ext_resource type="Texture2D" uid="uid://wuxcqvrebgjr" path="res://assets/characters/roberto.jpg" id="2_tadm4"]
+
+[resource]
+script = ExtResource("1_6bvk3")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.789387, 0.3608, 0.82, 1)
+sprite = ExtResource("2_tadm4")
+name = "roberto"

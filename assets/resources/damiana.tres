@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" load_steps=3 format=3 uid="uid://demiui2dsec1x"]
+
+[ext_resource type="Script" path="res://scripts/character_data.gd" id="1_iwyng"]
+[ext_resource type="Texture2D" uid="uid://crqf71isuv6e4" path="res://assets/characters/damiana.png" id="2_lil36"]
+
+[resource]
+script = ExtResource("1_iwyng")
+strength = 3
+defense = 3
+energy = 3
+energy_color = Color(0.3162, 0.36177, 0.62, 1)
+sprite = ExtResource("2_lil36")
+name = "damiana"
