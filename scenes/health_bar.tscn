@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://oqqxvfbrhwkx"]
+[gd_scene load_steps=9 format=3 uid="uid://oqqxvfbrhwkx"]
 
 [ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_nnc68"]
+[ext_resource type="FontFile" uid="uid://c02d6776wmdho" path="res://assets/fonts/PixelOperator8.ttf" id="2_uv1qs"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byump"]
 
@@ -38,6 +39,13 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="LabelSettings" id="LabelSettings_2mct1"]
+font = ExtResource("2_uv1qs")
+font_size = 18
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.454902)
+
 [node name="health_bar" type="ProgressBar"]
 z_index = 1
 offset_right = 372.0
@@ -63,12 +71,21 @@ show_percentage = false
 
 [node name="energy_bar" type="ProgressBar" parent="."]
 layout_mode = 1
-offset_top = 32.0
+offset_top = 40.0
 offset_right = 168.0
-offset_bottom = 44.0
+offset_bottom = 52.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_x0dk4")
 show_percentage = false
 
 [node name="timer" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
+
+[node name="name" type="Label" parent="."]
+layout_mode = 0
+offset_top = 56.0
+offset_right = 168.0
+offset_bottom = 77.0
+text = "DON JOAQUIN"
+label_settings = SubResource("LabelSettings_2mct1")
+uppercase = true

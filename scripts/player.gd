@@ -58,6 +58,8 @@ func init_data(data: CharacterData):
 	sprite_inner.scale.x = scale_x
 	sprite_inner.scale.y = scale_y
 	
+	get_health_bar().call_deferred("set_name_label", character_data.name)
+
 
 func get_jump_speed():
 	var stat = character_data.energy - BASE_STAT
