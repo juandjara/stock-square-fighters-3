@@ -11,6 +11,7 @@ func _init() -> void:
 	collision_layer = 2 + 16
 	collision_mask = 4 + 16
 
+
 func _ready() -> void:
 	var sprite: Sprite2D = $Sprite2D
 	if direction.x == -1:

@@ -46,11 +46,24 @@ func update_stats_color(color: Color):
 		b3.add_theme_color_override("icon_normal_color", color)
 
 
+func update_stats(data: CharacterData):
+	var b1 = $stats/attack as Button
+	if b1:
+		b1.text = str(data.attack)
+	var b2 = $stats/defense as Button
+	if b2:
+		b2.text = str(data.defense)
+	var b3 = $stats/energy as Button
+	if b3:
+		b3.text = str(data.energy)
+
+
 func update_character():
 	var character = characters[index]
 	if character:
 		$avatar.texture = character.sprite
 		update_stats_color(character.energy_color)
+		update_stats(character)
 		character_selected.emit(character)
 
 

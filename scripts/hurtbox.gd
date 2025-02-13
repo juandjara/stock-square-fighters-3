@@ -23,7 +23,7 @@ func _on_area_entered(hitbox: HitBox) -> void:
 			return
 	
 	if owner.has_method("take_damage"):
-		owner.take_damage(hitbox.damage)
+		owner.take_damage(hitbox.get_damage())
 	
 	var direction = (global_position - hitbox.global_position).normalized()
 	if owner.has_method("add_pushback_force"):

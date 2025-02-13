@@ -1,7 +1,7 @@
 class_name CharacterData
 extends Resource
 
-@export var strength = 3
+@export var attack = 3
 @export var defense = 3
 @export var energy = 3
 

@@ -1,12 +1,21 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -750.0
-const MAX_HEALTH = 200
-const MAX_ENERGY = 1.5 # seconds needed to fire a energy ball
 const TARGET_SPRITE_SIZE = 153 # px
-const MIN_PARRY_TIME = 0.05 # seconds
+const MAX_HEALTH = 200
+
+const SPEED_STEP = 60.0
+const SPEED = 300.0
+const JUMP_SPEED = -750.0
+
+const ENERGY_STEP = 0.15
+const MAX_ENERGY = 1.5 # seconds needed to fire a energy ball
+
+const PARRY_STEP = 0.05
+const MIN_PARRY_TIME = 0.1 # seconds
+
+const BASE_STAT = 3
+const BASE_DAMAGE = 5
 
 @export var is_controlled: bool = true
 @export_enum("left", "right") var initial_place: String = "left"
@@ -14,9 +23,6 @@ const MIN_PARRY_TIME = 0.05 # seconds
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Node2D = $sprite
 @onready var sprite_inner: Node2D = $sprite/Sprite2D
-
-var character_name: String
-var energy_color: Color
 
 var bullet_scene = preload("res://scenes/bullet.tscn")
 var initial_sprite_scale: float = 1
@@ -31,6 +37,7 @@ var defense_start_key: String
 var state = "idle"
 var persistent_states = ["energy_load", "defense"]
 
+var character_data: CharacterData
 
 func _ready() -> void:
 	initial_sprite_scale = sprite.scale.x
@@ -43,14 +50,48 @@ func init_data(data: CharacterData):
 	if not data:
 		return
 	
-	energy_color = data.energy_color
-	character_name = data.name
-	sprite_inner.texture = data.sprite
+	character_data = data
 	
+	sprite_inner.texture = data.sprite
 	var scale_x = float(TARGET_SPRITE_SIZE) / float(sprite_inner.texture.get_width())
 	var scale_y = float(TARGET_SPRITE_SIZE) / float(sprite_inner.texture.get_height())
 	sprite_inner.scale.x = scale_x
 	sprite_inner.scale.y = scale_y
+	
+
+func get_jump_speed():
+	var stat = character_data.energy - BASE_STAT
+	return JUMP_SPEED + (stat * -SPEED_STEP)
+
+
+func get_move_speed():
+	var stat = character_data.energy - BASE_STAT
+	return SPEED + (stat * SPEED_STEP)
+
+
+func get_parry_time():
+	var stat = character_data.energy - BASE_STAT
+	return MIN_PARRY_TIME + (stat * PARRY_STEP)
+
+
+func get_max_energy():
+	var stat = character_data.energy - BASE_STAT
+	return MAX_ENERGY - (stat * ENERGY_STEP)
+
+
+func get_energy_damage():
+	var stat = character_data.energy - BASE_STAT
+	return BASE_DAMAGE + stat
+
+
+func get_damage():
+	var stat = character_data.attack - BASE_STAT
+	return BASE_DAMAGE + stat
+
+
+func get_defense():
+	var stat = character_data.defense - BASE_STAT
+	return BASE_DAMAGE + stat
 
 
 func get_keys() -> Dictionary:
@@ -166,14 +207,14 @@ func process_movement(delta: float):
 		
 	# Handle jump.
 	if is_controlled and Input.is_action_just_pressed(get_keys()["up"]) and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = get_jump_speed() # JUMP_SPEED
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis(get_keys()["left"], get_keys()["right"])
 	if is_controlled and direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * get_move_speed()
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, get_move_speed())
 
 
 func process_pushback(delta: float):
@@ -187,7 +228,7 @@ func process_energy_load(delta: float):
 		update_energy(energy_loaded + delta)
 	
 	if Input.is_action_just_released(get_keys()["down"]):
-		if (energy_loaded >= MAX_ENERGY):
+		if (energy_loaded >= get_max_energy()):
 			fire_energy()
 		
 		transition("idle")
@@ -217,7 +258,7 @@ func face_other_player():
 # stores energy and updates UI
 func update_energy(value: float):
 	energy_loaded = value
-	var percent = max(0, energy_loaded * 100) / MAX_ENERGY
+	var percent = max(0, energy_loaded * 100) / get_max_energy()
 	get_health_bar().update_energy(percent)
 
 
@@ -227,7 +268,8 @@ func fire_energy():
 	var diff = get_other_player().global_position.x - global_position.x
 	bullet.direction = Vector2(sign(diff), 0)
 	bullet.global_position = %bullet_spawn.global_position
-	bullet.color = energy_color
+	bullet.color = character_data.energy_color
+	bullet.damage = get_energy_damage()
 	$/root/world.add_child(bullet)
 
 
@@ -247,11 +289,16 @@ func get_health_bar() -> HealthBar:
 
 # the hurtbox script calls this methods when a hitbox collides with it
 func take_damage(amount: int):
+	var was_defending = state == "defense"
 	transition("take_damage")
 	
 	await Hitstop.freeze_short() # if we don't append "await" here, the movement of thing freezes but the scripts do not
+
+	var rand_amount = roundi(randf_range(amount * 0.9, amount * 1.1))
+	if was_defending:
+		var def = get_defense()	
+		rand_amount = max(0, rand_amount - def)
 	
-	var rand_amount = roundi(randf_range(amount * 0.8, amount * 1.2))
 	DamageNumbers.show_number(rand_amount, $DamageNumberOrigin.global_position)
 	
 	health -= rand_amount
@@ -261,9 +308,11 @@ func take_damage(amount: int):
 	if health <= 0:
 		$/root/world.show_win_menu()
 
+
 # the hurtbox script calls this methods when a hitbox collides with it
 func add_pushback_force(direction: Vector2):
 	pushback_force = direction * 500
+
 
 func can_parry():
 	return state == 'defense' and defense_time < MIN_PARRY_TIME
