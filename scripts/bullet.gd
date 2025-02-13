@@ -17,20 +17,35 @@ func _ready() -> void:
 		sprite.rotation *= -1
 	if color:
 		sprite.self_modulate = color
-	
-	area_entered.connect(_on_area_entered)
+		
+	connect("area_entered", _on_area_entered)
+
+
+func flip():
+	direction.x *= -1
+	$Sprite2D.rotation *= -1	
 
 
 func _physics_process(delta: float) -> void:
 	global_position += direction * SPEED
 
 
-func _on_timer_timeout() -> void:
-	queue_free()
-
+# explode bullet if colliding with another bullet
 func _on_area_entered(area: Area2D) -> void:
-	spawn_explosion(area.global_position)
-	queue_free()
+	if area is Bullet:
+		spawn_explosion(area.global_position)
+		queue_free()
+
+
+func _on_timer_timeout() -> void:
+	fade_out()
+
+
+func fade_out():
+	var tween = get_tree().create_tween()
+	tween.tween_property($Sprite2D, "scale", $Sprite2D.scale * 0.5, 0.25)
+	tween.tween_property($Sprite2D, "modulate", Color.TRANSPARENT, 0.25)
+	tween.tween_callback(queue_free)
 
 
 func spawn_explosion(pos: Vector2):

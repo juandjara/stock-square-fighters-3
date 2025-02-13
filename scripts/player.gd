@@ -4,6 +4,9 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -750.0
 const MAX_HEALTH = 200
+const MAX_ENERGY = 1.5 # seconds needed to fire a energy ball
+const TARGET_SPRITE_SIZE = 153 # px
+const MIN_PARRY_TIME = 0.05 # seconds
 
 @export var is_controlled: bool = true
 @export_enum("left", "right") var initial_place: String = "left"
@@ -20,11 +23,14 @@ var initial_sprite_scale: float = 1
 var pushback_force: Vector2
 var health = 200
 
-const MAX_ENERGY = 1.5 # seconds needed to fire a energy ball
-var energy_loaded = 0
-var state = "idle"
+var energy_loaded: float = 0
 
-const TARGET_SPRITE_SIZE = 153 # px
+var defense_time: float = 0
+var defense_start_key: String
+
+var state = "idle"
+var persistent_states = ["energy_load", "defense"]
+
 
 func _ready() -> void:
 	initial_sprite_scale = sprite.scale.x
@@ -68,6 +74,18 @@ func get_keys() -> Dictionary:
 		}
 	return {}
 
+
+func get_defense_key():
+	var key = "left"
+	var other = get_other_player()
+	if other:
+		var diff = global_position.x - other.global_position.x
+		if diff > 0:
+			key = "right"
+			
+	return get_keys()[key]
+
+
 func _physics_process(delta: float) -> void:
 	if is_controlled:
 		if Input.is_action_just_pressed(get_keys()["atk1"]):
@@ -76,8 +94,10 @@ func _physics_process(delta: float) -> void:
 			transition("attack2")
 		if Input.is_action_just_pressed(get_keys()["down"]) and is_on_floor():
 			transition("load_energy")
+		if Input.is_action_just_pressed(get_defense_key()) and is_on_floor():
+			transition("defense")
 	
-	if state == 'idle':
+	if state == 'idle' or state == 'defense':
 		process_movement(delta)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, delta * 10)
@@ -87,16 +107,25 @@ func _physics_process(delta: float) -> void:
 	
 	if state == 'load_energy':
 		process_energy_load(delta)
+		
+	if state == 'defense':
+		process_defense(delta)
 	
 	move_and_slide()
 	
 	face_other_player()
 
+
 # this is a bad approximation to a state machine, but it works for now
 func transition(new_state: String):
-	# reset energy when prev state was "load_energy"
+	# if prev state was "load_energy", reset energy levels
 	if (state == 'load_energy'):
 		update_energy(0)
+	
+	# if prev state was "defense", hide the shield sprite and reset defense time
+	if state == "defense":
+		defense_time = 0
+		$sprite/shield.visible = false
 	
 	if animation_player.is_playing():
 		# TODO: detect if animation is looping instead of checking by name
@@ -108,23 +137,28 @@ func transition(new_state: String):
 	
 	if state != new_state:
 		state = new_state
-		if state == 'idle':
-			animation_player.play("RESET")
-		else:
+		if animation_player.has_animation(state):
 			animation_player.play(state)
+		else:
+			animation_player.play("RESET")
+
+	if new_state == 'defense':
+		defense_time = 0
+		defense_start_key = get_defense_key()
+		$sprite/shield.visible = true
 
 	# only receive input for attack, movement and more when state is "idle"
-	if state == "idle":
+	if new_state == "idle" or new_state == 'defense':
 		is_controlled = true
 	else:
 		is_controlled = false
 		
-		# when animation is not "idle", transition to "idle" after animation finished (if anim does not loop)
-		# TODO: detect if animation is looping instead of checking by name
-		if animation_player.current_animation != 'load_energy':
+		# transition to "idle" after animation finished if state is not persistent
+		if not persistent_states.has(state):
 			await animation_player.animation_finished
 			transition("idle")
-	
+
+
 func process_movement(delta: float):
 	# Add the gravity.
 	if not is_on_floor():
@@ -141,10 +175,12 @@ func process_movement(delta: float):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
+
 func process_pushback(delta: float):
 	if pushback_force.length() != 0:
 		velocity += pushback_force
 		pushback_force = lerp(pushback_force, Vector2.ZERO, delta * 20)
+
 
 func process_energy_load(delta: float):	
 	if Input.is_action_pressed(get_keys()["down"]):
@@ -156,6 +192,17 @@ func process_energy_load(delta: float):
 		
 		transition("idle")
 
+
+func process_defense(delta: float):
+	if Input.is_action_pressed(defense_start_key):
+		defense_time += delta
+	
+	var curr_defense_key = get_defense_key()
+	if curr_defense_key != defense_start_key or Input.is_action_just_released(defense_start_key):
+		transition("idlw")
+
+
+# called every frame in _process_phyisics
 func face_other_player():
 	var other = get_other_player()
 	if not other:
@@ -166,11 +213,15 @@ func face_other_player():
 	else:
 		sprite.scale.x = initial_sprite_scale
 
+
+# stores energy and updates UI
 func update_energy(value: float):
 	energy_loaded = value
 	var percent = max(0, energy_loaded * 100) / MAX_ENERGY
 	get_health_bar().update_energy(percent)
 
+
+# called in process_energy before transitioning out if enough energy was accumulated
 func fire_energy():
 	var bullet = bullet_scene.instantiate() as Bullet
 	var diff = get_other_player().global_position.x - global_position.x
@@ -179,17 +230,20 @@ func fire_energy():
 	bullet.color = energy_color
 	$/root/world.add_child(bullet)
 
+
 func get_other_player() -> Player:
 	if initial_place == 'right':
 		return $/root/world/player1
 	else:
 		return $/root/world/player2
 
+
 func get_health_bar() -> HealthBar:
 	if initial_place == 'right':
 		return $/root/world/GUI/HP_Right
 	else:
 		return $/root/world/GUI/HP_Left
+
 
 # the hurtbox script calls this methods when a hitbox collides with it
 func take_damage(amount: int):
@@ -210,3 +264,6 @@ func take_damage(amount: int):
 # the hurtbox script calls this methods when a hitbox collides with it
 func add_pushback_force(direction: Vector2):
 	pushback_force = direction * 500
+
+func can_parry():
+	return state == 'defense' and defense_time < MIN_PARRY_TIME

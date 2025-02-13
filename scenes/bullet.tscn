@@ -19,5 +19,7 @@ offset = Vector2(0, -184.615)
 shape = SubResource("RectangleShape2D_inq3t")
 
 [node name="timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
 
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

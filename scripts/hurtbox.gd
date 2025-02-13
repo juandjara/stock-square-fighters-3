@@ -16,15 +16,23 @@ func _on_area_entered(hitbox: HitBox) -> void:
 	
 	if owner.is_ancestor_of(hitbox):
 		return
-		
+	
+	if owner.has_method("can_parry") and owner.can_parry():
+		if hitbox is Bullet:
+			hitbox.flip()
+			return
+	
 	if owner.has_method("take_damage"):
 		owner.take_damage(hitbox.damage)
-		
+	
 	var direction = (global_position - hitbox.global_position).normalized()
 	if owner.has_method("add_pushback_force"):
 		owner.add_pushback_force(direction)
-		
+	
 	spawn_explosion(hitbox.global_position)
+	
+	if hitbox is Bullet:
+		hitbox.queue_free()
 
 
 func spawn_explosion(pos: Vector2):
