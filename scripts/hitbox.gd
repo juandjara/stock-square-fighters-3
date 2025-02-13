@@ -8,7 +8,6 @@ func _init() -> void:
 	collision_layer = 2 # exist only in layer 2 "hitbox"
 	collision_mask = 4 # collide only with layer 3 "hurtbox"
 
-
 func get_damage():
 	if owner and owner.has_method("get_damage"):
 		return owner.get_damage()

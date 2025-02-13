@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://b1yr4fph22oft"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_6kqs2"]
-[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_wokfw"]
+[ext_resource type="Script" path="res://scripts/melee_hitbox.gd" id="2_2htvr"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_hon03"]
 [ext_resource type="Texture2D" uid="uid://d4e20v4t5r545" path="res://assets/characters/albertito.jpg" id="4_uvwwr"]
 [ext_resource type="Texture2D" uid="uid://bvycns33xy3kb" path="res://addons/plenticons/icons/64x-hidpi/objects/shield-gray.png" id="5_0cge6"]
@@ -306,7 +306,7 @@ script = ExtResource("1_6kqs2")
 [node name="sprite" type="Node2D" parent="."]
 
 [node name="HitBox" type="Area2D" parent="sprite"]
-script = ExtResource("3_wokfw")
+script = ExtResource("2_2htvr")
 
 [node name="bullet_spawn" type="Node2D" parent="sprite/HitBox"]
 unique_name_in_owner = true

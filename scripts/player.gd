@@ -290,6 +290,18 @@ func get_health_bar() -> HealthBar:
 
 
 # the hurtbox script calls this methods when a hitbox collides with it
+func take_hit(hitbox: HitBox):
+	take_damage(hitbox.get_damage())
+	
+	var direction = (global_position - hitbox.global_position).normalized()
+	add_pushback_force(direction)
+	
+	ExplosionSpawner.spawn((global_position + hitbox.global_position) / 2)
+	
+	if hitbox is Bullet:
+		hitbox.queue_free()
+
+
 func take_damage(amount: int):
 	var was_defending = state == "defense"
 	transition("take_damage")

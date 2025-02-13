@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Hitstop="*res://scripts/hitstop.gd"
 DamageNumbers="*res://scripts/damage_numbers.gd"
 GameState="*res://scripts/game_state.gd"
+ExplosionSpawner="*res://scripts/explosion_spawner.gd"
 
 [display]
 
