@@ -11,7 +11,7 @@ var viewport_rect: Rect2
 
 var p1: Player
 var p2: Player
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if not viewport_rect:

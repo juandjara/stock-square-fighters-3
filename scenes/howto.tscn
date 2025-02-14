@@ -1,0 +1,188 @@
+[gd_scene load_steps=9 format=3 uid="uid://dssk6vfybel3q"]
+
+[ext_resource type="Script" path="res://scripts/howto.gd" id="1_lsy4h"]
+[ext_resource type="Texture2D" uid="uid://bmtqm02dkci1c" path="res://assets/street-fighter-bg.jpg" id="2_5guul"]
+[ext_resource type="FontFile" uid="uid://dyld1xmtwxp60" path="res://assets/fonts/PixelOperatorHB.ttf" id="3_ww5y1"]
+[ext_resource type="Theme" uid="uid://bb5vt0x5fx5a4" path="res://assets/button_theme.tres" id="4_6nlf3"]
+[ext_resource type="Texture2D" uid="uid://bql0qmxmw20lv" path="res://assets/k3.png" id="5_n3bca"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2eq7u"]
+font = ExtResource("3_ww5y1")
+font_size = 52
+
+[sub_resource type="LabelSettings" id="LabelSettings_lcbhj"]
+font_size = 24
+font_color = Color(1, 0.768627, 0.32549, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ijnkx"]
+font_size = 24
+font_color = Color(0.509804, 0.588235, 0.945098, 1)
+
+[node name="howto" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lsy4h")
+
+[node name="Street-fighter-bg" type="Sprite2D" parent="."]
+position = Vector2(428, 320)
+scale = Vector2(0.454167, 0.607407)
+texture = ExtResource("2_5guul")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_right = 854.0
+offset_bottom = 645.0
+color = Color(0, 0, 0, 0.498039)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 308.0
+offset_top = 64.0
+offset_right = 571.0
+offset_bottom = 117.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 52
+text = "HOW TO PLAY"
+label_settings = SubResource("LabelSettings_2eq7u")
+vertical_alignment = 1
+
+[node name="back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 352.0
+offset_top = 528.0
+offset_right = 512.0
+offset_bottom = 589.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_6nlf3")
+text = "back"
+
+[node name="K3" type="Sprite2D" parent="."]
+position = Vector2(436, 332)
+scale = Vector2(0.835878, 0.835878)
+texture = ExtResource("5_n3bca")
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 303.0
+offset_right = 247.0
+offset_bottom = 328.0
+color = Color(1, 0.768627, 0.32549, 0.294118)
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 303.0
+offset_right = 281.0
+offset_bottom = 328.0
+color = Color(1, 0.768627, 0.32549, 0.447059)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 303.0
+offset_right = 314.0
+offset_bottom = 328.0
+color = Color(1, 0.768627, 0.32549, 0.294118)
+
+[node name="ColorRect10" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 638.0
+offset_top = 370.0
+offset_right = 663.0
+offset_bottom = 395.0
+color = Color(0.509804, 0.588235, 0.945098, 0.447059)
+
+[node name="ColorRect11" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 638.0
+offset_top = 404.0
+offset_right = 663.0
+offset_bottom = 429.0
+color = Color(0.509804, 0.588235, 0.945098, 0.447059)
+
+[node name="ColorRect12" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 671.0
+offset_top = 403.0
+offset_right = 696.0
+offset_bottom = 428.0
+color = Color(0.509804, 0.588235, 0.945098, 0.447059)
+
+[node name="ColorRect14" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 371.0
+offset_right = 697.0
+offset_bottom = 396.0
+color = Color(0.509804, 0.588235, 0.945098, 0.294118)
+
+[node name="ColorRect15" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 337.0
+offset_right = 697.0
+offset_bottom = 362.0
+color = Color(0.509804, 0.588235, 0.945098, 0.294118)
+
+[node name="ColorRect13" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 604.0
+offset_top = 404.0
+offset_right = 629.0
+offset_bottom = 429.0
+color = Color(0.509804, 0.588235, 0.945098, 0.447059)
+
+[node name="ColorRect7" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 297.0
+offset_top = 337.0
+offset_right = 322.0
+offset_bottom = 362.0
+color = Color(1, 0.768627, 0.32549, 0.447059)
+
+[node name="ColorRect8" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 337.0
+offset_right = 289.0
+offset_bottom = 362.0
+color = Color(1, 0.768627, 0.32549, 0.447059)
+
+[node name="ColorRect9" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 231.0
+offset_top = 337.0
+offset_right = 256.0
+offset_bottom = 362.0
+color = Color(1, 0.768627, 0.32549, 0.447059)
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 300.0
+offset_right = 202.0
+offset_bottom = 325.0
+text = "PLAYER 1"
+label_settings = SubResource("LabelSettings_lcbhj")
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 703.0
+offset_top = 337.0
+offset_right = 793.0
+offset_bottom = 362.0
+text = "PLAYER 2"
+label_settings = SubResource("LabelSettings_ijnkx")
+
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
