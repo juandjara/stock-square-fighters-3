@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://da27ua6tpkajv"]
+[gd_scene load_steps=16 format=3 uid="uid://da27ua6tpkajv"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_4x3sm"]
 [ext_resource type="Texture2D" uid="uid://bmtqm02dkci1c" path="res://assets/street-fighter-bg.jpg" id="1_05n7x"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/camera.gd" id="4_nvwil"]
 [ext_resource type="FontFile" uid="uid://dvk1tsycyqrin" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_sbhtj"]
 [ext_resource type="PackedScene" uid="uid://cbrbt4mf4gc7p" path="res://scenes/end_menu.tscn" id="8_2xq00"]
+[ext_resource type="Script" path="res://scripts/bullet_killer.gd" id="8_r4ckw"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nvjx3"]
 normal = Vector2(0, 1)
@@ -28,6 +29,14 @@ corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 shadow_color = Color(1, 0.473246, 0.261262, 0.647059)
 shadow_size = 2
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oofrc"]
+normal = Vector2(1, 0)
+distance = 16.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xbik1"]
+normal = Vector2(-1, 0)
+distance = 16.0
 
 [node name="world" type="Node2D"]
 process_mode = 1
@@ -101,5 +110,21 @@ autostart = true
 [node name="pause_menu" parent="." instance=ExtResource("2_uvb2s")]
 
 [node name="end_menu" parent="." instance=ExtResource("8_2xq00")]
+
+[node name="bullet_killer1" type="Area2D" parent="."]
+position = Vector2(40, 320)
+script = ExtResource("8_r4ckw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bullet_killer1"]
+shape = SubResource("WorldBoundaryShape2D_oofrc")
+metadata/_edit_lock_ = true
+
+[node name="bullet_killer2" type="Area2D" parent="."]
+position = Vector2(848, 320)
+script = ExtResource("8_r4ckw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bullet_killer2"]
+shape = SubResource("WorldBoundaryShape2D_xbik1")
+metadata/_edit_lock_ = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

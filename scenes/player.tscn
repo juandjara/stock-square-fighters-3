@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b1yr4fph22oft"]
+[gd_scene load_steps=16 format=3 uid="uid://b1yr4fph22oft"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_6kqs2"]
 [ext_resource type="Script" path="res://scripts/melee_hitbox.gd" id="2_2htvr"]
@@ -299,6 +299,9 @@ _data = {
 "take_damage": SubResource("Animation_kn752")
 }
 
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_rg6qp"]
+length = 112.0
+
 [node name="player" type="CharacterBody2D"]
 collision_layer = 8
 script = ExtResource("1_6kqs2")
@@ -310,7 +313,7 @@ script = ExtResource("2_2htvr")
 
 [node name="bullet_spawn" type="Node2D" parent="sprite/HitBox"]
 unique_name_in_owner = true
-position = Vector2(112, 0)
+position = Vector2(101, 0)
 scale = Vector2(2.94358, 2.10837)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sprite/HitBox"]
@@ -349,3 +352,7 @@ libraries = {
 
 [node name="DamageNumberOrigin" type="Node2D" parent="."]
 position = Vector2(0, -104)
+
+[node name="SeparationRay" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("SeparationRayShape2D_rg6qp")

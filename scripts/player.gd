@@ -43,6 +43,7 @@ func _ready() -> void:
 	initial_sprite_scale = sprite.scale.x
 	if initial_place == 'right':
 		sprite.scale.x *= -1
+		$SeparationRay.rotation *= -1
 
 
 # called from world.gd when instantiating the players
@@ -140,6 +141,8 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed(get_defense_key()) and is_on_floor():
 			transition("defense")
 	
+	process_gravity(delta)
+	
 	if state == 'idle' or state == 'defense':
 		process_movement(delta)
 	else:
@@ -202,11 +205,13 @@ func transition(new_state: String):
 			transition("idle")
 
 
-func process_movement(delta: float):
+func process_gravity(delta: float):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		
+
+
+func process_movement(delta: float):
 	# Handle jump.
 	if is_controlled and Input.is_action_just_pressed(get_keys()["up"]) and is_on_floor():
 		velocity.y = get_jump_speed() # JUMP_SPEED
@@ -268,6 +273,7 @@ func update_energy(value: float):
 func fire_energy():
 	var bullet = bullet_scene.instantiate() as Bullet
 	var diff = get_other_player().global_position.x - global_position.x
+	print("bullet direction", Vector2(sign(diff), 0))
 	bullet.direction = Vector2(sign(diff), 0)
 	bullet.global_position = %bullet_spawn.global_position
 	bullet.color = character_data.energy_color
@@ -291,9 +297,17 @@ func get_health_bar() -> HealthBar:
 
 # the hurtbox script calls this methods when a hitbox collides with it
 func take_hit(hitbox: HitBox):
+	if animation_player.is_playing():
+		animation_player.play("RESET")
+	
 	take_damage(hitbox.get_damage())
 	
 	var direction = (global_position - hitbox.global_position).normalized()
+	
+	if hitbox is Bullet:
+		var diff = global_position.x - get_other_player().global_position.x
+		direction = Vector2(sign(diff), 0)
+	
 	add_pushback_force(direction)
 	
 	ExplosionSpawner.spawn((global_position + hitbox.global_position) / 2)

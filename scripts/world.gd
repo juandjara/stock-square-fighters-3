@@ -7,6 +7,16 @@ var fight_time_left = MAX_FIGHT_TIME
 var player_scene = preload("res://scenes/player.tscn")
 
 
+func _ready() -> void:
+	create_p1()
+	create_p2()
+	get_tree().root.focus_exited.connect(_on_focus_exited)
+
+
+func _on_focus_exited():
+	toggle_pause_menu()
+
+
 func create_p1():
 	var p1 = player_scene.instantiate() as Player
 	p1.global_position = Vector2(100, -100)
@@ -32,17 +42,16 @@ func create_p2():
 	p2.init_data(data)
 
 
-func _ready() -> void:
-	create_p1()
-	create_p2()
+func toggle_pause_menu():
+	var menu: PauseMenu = $pause_menu
+	if menu:
+		menu.visible = true
+		get_tree().call_deferred("set_pause", true)
 
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
-		var menu: PauseMenu = $/root/world/pause_menu
-		if menu:
-			menu.visible = true
-			get_tree().call_deferred("set_pause", true)
+	if Input.is_action_just_pressed("escape"):
+		toggle_pause_menu()
 
 func update_time_label():
 	var label = $GUI/FightTime/FightTimeLabel
@@ -51,6 +60,10 @@ func update_time_label():
 func get_winning_player():
 	var p1 = $player1 as Player
 	var p2 = $player2 as Player
+	
+	if p1.health == p2.health:
+		return null
+	
 	if p1.health > p2.health:
 		return p1
 	else:
@@ -61,8 +74,13 @@ func show_win_menu():
 	if menu:
 		menu.visible = true
 		var winner = get_winning_player()
-		menu.update_label(winner.name + " wins!")
-		get_tree().call_deferred("set_pause", true)
+		var label = "THAT'S A DRAW"
+		
+		if winner:
+			label = winner.character_data.name.to_upper() + " wins!"
+		
+		menu.update_label(label)
+		get_tree().set_pause(true)
 
 func _on_timer_timeout() -> void:
 	if fight_time_left > 0:

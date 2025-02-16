@@ -39,7 +39,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_timer_timeout() -> void:
-	fade_out()
+	pass
+	# fade_out()
 
 
 func fade_out():

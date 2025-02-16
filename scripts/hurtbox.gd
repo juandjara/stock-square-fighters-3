@@ -17,14 +17,11 @@ func _on_area_entered(hitbox: HitBox) -> void:
 	
 	# check if player receiving damage can parry
 	if owner.has_method("can_parry") and owner.can_parry():
-		print("owner can parry")
 		# check if hitbox damage can be parried
 		if hitbox.has_method("parry"):
-			print("hitbox has parry")
 			hitbox.parry()
 			return
-		else:
-			print("hitbox has no parry")
+	
 	
 	if owner.has_method("take_hit"):
 		owner.take_hit(hitbox)
