@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_qdl0p")
-attack = 7
+attack = 8
 defense = 1
 energy = 1
 energy_color = Color(0.47, 0.0987, 0.104888, 1)

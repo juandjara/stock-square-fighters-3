@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("1_n822b")
-strength = 3
-defense = 3
+attack = 4
+defense = 2
 energy = 3
 energy_color = Color(0.102058, 0.37, 0.0777, 1)
 sprite = ExtResource("2_vlnug")

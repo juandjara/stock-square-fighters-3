@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("1_41eh0")
-strength = 3
-defense = 3
-energy = 3
+attack = 5
+defense = 2
+energy = 2
 energy_color = Color(0.7, 0.5915, 0.049, 1)
 sprite = ExtResource("2_wi8kx")
 name = "fatima"

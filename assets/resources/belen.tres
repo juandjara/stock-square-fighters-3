@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("1_tnb56")
-strength = 3
-defense = 3
-energy = 3
+attack = 4
+defense = 4
+energy = 1
 energy_color = Color(0.1722, 0.82, 0.1722, 1)
 sprite = ExtResource("2_lyxi4")
 name = "belen"

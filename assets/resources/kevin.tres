@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("1_wudhn")
-strength = 3
-defense = 3
-energy = 3
+attack = 3
+defense = 1
+energy = 5
 energy_color = Color(0.293031, 0.89168, 0.962691, 1)
 sprite = ExtResource("2_uwqa0")
 name = "kevin"
